@@ -49,6 +49,7 @@ class LinkController extends Controller {
             ->first();
 
         if ($link == null) {
+            header('HTTP/1.0 404 Not Found');
             return abort(404);
         }
 
@@ -64,11 +65,13 @@ class LinkController extends Controller {
             if (!$secret_key) {
                 // if we do not receieve a secret key
                 // when we are expecting one, return a 403
+                header('HTTP/1.0 403 Forbidden');
                 return abort(403);
             }
             else {
                 if ($link_secret_key != $secret_key) {
                     // a secret key is provided, but it is incorrect
+                    header('HTTP/1.0 403 Forbidden');
                     return abort(403);
                 }
             }
